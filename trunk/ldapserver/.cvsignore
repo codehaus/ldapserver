@@ -2,3 +2,4 @@ target
 .classpath
 .project
 maven.log
+velocity.log
