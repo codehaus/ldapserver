@@ -6,11 +6,11 @@
   <currentVersion>1.0-alpha-1</currentVersion>
    
   <dependencies>
-    <dependency>
+    <!--dependency>
       <groupId>snacc4j</groupId>
       <artifactId>snacc</artifactId>
       <version>2.3</version>
-    </dependency>
+    </dependency-->
     <dependency>
       <groupId>xerces</groupId>
       <artifactId>xerces</artifactId>
