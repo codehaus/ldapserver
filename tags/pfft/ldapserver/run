@@ -1,0 +1,5 @@
+#!/bin/sh
+
+java -cp target/plexus-ldapserver-1.0-alpha-1.jar:\
+lib/snacc-2.3.jar:\
+lib/xerces-1.4.0.jar org.codehaus.plexus.ldapserver.server.LDAPServer 10389
