@@ -1,5 +1,5 @@
 
-package org.codehaus.plexusl.ldapserver;
+package org.codehaus.plexus.ldapserver;
 
 
 
