@@ -1,41 +1,133 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+  <!ENTITY oslash "&#248;">
+]>
+
 <project>
-  <extend>${maven.repo.local}/plexus/poms/plexus-components-1.0.pom</extend>
-  <id>plexus-ldapserver</id>
-  <name>Plexus LDAP Server Component</name>
+  <pomVersion>3</pomVersion>
+  <id>ldapserver</id>
+  <artifactId>ldapserver</artifactId>
+  <name>LDAP Server</name>
+  <groupId>codehaus</groupId>
   <currentVersion>1.0-alpha-1</currentVersion>
 
-    <siteAddress>codehaus.org</siteAddress>
-    <siteDirectory>/home/trygvis/public_html/ldap</siteDirectory>
+  <organization>
+    <name>The Codehaus</name>
+    <url>http://codehaus.org</url>
+    <logo>http://codehaus.org/codehaus-small.gif</logo>
+  </organization>
+  <inceptionYear>2003</inceptionYear>
+  <package>org.codehaus.plexus}</package>
+  <!--
+  <logo></logo>
+  -->
+  <shortDescription>A simple LDAP server.</shortDescription>
+  <url>http://codehaus.org/~trygvis/ldap</url>
+  <!--
+  <issueTrackingUrl>http://jira.codehaus.org</issueTrackingUrl>
+  -->
+
+  <siteAddress>codehaus.org</siteAddress>
+  <siteDirectory>/home/trygvis/public_html/ldap</siteDirectory>
+
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:ldapserver</connection>
+    <developerConnection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:ldapserver</developerConnection>
+    <url>http://cvs.codehaus.org/viewcvs.cgi/ldapserver?root=codehaus</url>
+  </repository>
+
+  <versions/>
+
+  <mailingLists>
+    <mailingList>
+      <name>LDAP Server Developer List</name>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-dev</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-dev</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/ldapserver-dev/</archive>
+    </mailingList>
+
+    <mailingList>
+      <name>LDAP Server Users List</name>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-users</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-users</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/ldapserver-users/</archive>
+    </mailingList>
+
+    <mailingList>
+      <name>LDAP Server SCM List</name>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-scm</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-scm</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/ldapserver-scm/</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+
+    <developer>
+      <name>Clayton Donley</name>
+      <id>clayton</id>
+      <email>cdonley@users.sourceforge.net</email>
+      <roles>
+        <role>Original Developer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <name>Jason van Zyl</name>
+      <id>jvanzyl</id>
+      <email>jason@zenplex.com</email>
+      <organization>Zenplex</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+
+
+    <developer>
+      <name>Trygve Laugst&oslash;l</name>
+      <id>trygvis</id>
+      <email>trygvis@codehaus.org</email>
+      <organization>Inamo Software Group</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <url>http://home.inamo.no/~trygvis</url>
+      <timezone>+1</timezone>
+    </developer>
+
+  </developers>
    
   <dependencies>
-    <!--dependency>
+<!--
+    dependency>
       <groupId>snacc4j</groupId>
       <artifactId>snacc</artifactId>
       <version>2.3</version>
-    </dependency-->
+    </dependency>
+-->
     <dependency>
       <groupId>xerces</groupId>
       <artifactId>xerces</artifactId>
       <version>1.4.0</version>
     </dependency>
+
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.8</version>
     </dependency>
-  </dependencies>
 
-  <properties>
-    <implementation>org.codehaus.plexus.ldapserver.DefaultLDAPServer</implementation>
-  </properties>
+  </dependencies>
 
   <build>
     <unitTest>
       <resources>
         <resource>
           <directory>src/test-resources</directory>
-          <include>*.properties</include>
+          <includes>
+            <include>*.properties</include>
+          </includes>
         </resource>
       </resources>
     </unitTest>
@@ -49,5 +141,20 @@
       </resource>
     </resources>
   </build>
-</project>
 
+  <reports>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-license-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-junit-report-plugin</report>
+    <report>maven-linkcheck-plugin</report>
+    <report>maven-tasklist-plugin</report>
+  </reports>
+
+</project>
