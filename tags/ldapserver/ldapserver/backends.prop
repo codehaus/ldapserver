@@ -1,0 +1,6 @@
+# JavaLDAP Server Backend Configuration File
+#
+
+backend.num=0
+backend.0.root=dc=javaldap,dc=com
+backend.0.type=org.javaldap.server.backend.BackendMemory

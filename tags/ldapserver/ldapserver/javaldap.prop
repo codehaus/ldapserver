@@ -1,0 +1,31 @@
+#JavaLDAP Server Properties
+#Sat Jun 10 11:34:38 CDT 2000
+
+# Basic Server Identification
+javaldap.server.name=localhost
+javaldap.server.port=10389
+
+# Not yet used...plan to pool threads soon
+javaldap.server.threads=16
+
+# Schema file locations...Only STD is currently used
+# These files are in DSML format
+javaldap.schema.user=./user.oc.xml
+javaldap.schema.std=./std.oc.xml
+
+# Backend Configuration
+javaldap.server.backends=./backends.prop
+
+# Schema Checking On=1/Off=0
+javaldap.schemacheck=0
+
+# ACL Checking On=1/Off=0
+javaldap.aclcheck=0
+
+# Root User and Password - Bypass ACLs
+javaldap.rootuser=cn=admin
+javaldap.rootpw=manager
+
+# Debug Level (Currently 0-9 with 9 being most verbose)
+javaldap.debug=9
+
