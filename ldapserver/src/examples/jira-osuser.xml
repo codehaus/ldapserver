@@ -1,0 +1,34 @@
+<!--
+ Place this file in atlassian-jira/WEB-INF/classes/osuser.xml, replace at least the password and
+ you should be all set. This only allows user/password to be read from ldap, not the entire 
+ userprofile. This is scheduled as a jira issue.
+
+ * http://www.atlassian.com/software/jira/docs/v2.5/ldap.html
+-->
+<opensymphony-user>
+
+	<authenticator class="com.opensymphony.module.user.authenticator.SmartAuthenticator" />
+
+	<provider class="com.opensymphony.module.user.provider.ldap.LDAPCredentialsProvider">
+		 <property name="java.naming.factory.initial">com.sun.jndi.ldap.LdapCtxFactory</property>
+		 <property name="java.naming.provider.url">ldap://localhost:389</property>
+		 <property name="searchBase">ou=People,dc=inamo,dc=no</property>
+		 <property name="uidSearchName">uid</property>
+		 <property name="java.naming.security.principal">cn=admin,dc=inamo,dc=no</property>
+		 <property name="java.naming.security.credentials">XXX</property>
+		 <property name="exclusive-access">true</property>
+	</provider>
+
+	<provider class="com.atlassian.core.ofbiz.osuser.CoreOFBizCredentialsProvider">
+		<property name="exclusive-access">true</property>
+	</provider>
+
+	<provider class="com.opensymphony.module.user.provider.ofbiz.OFBizProfileProvider">
+		<property name="exclusive-access">true</property>
+	</provider>
+
+	<provider class="com.opensymphony.module.user.provider.ofbiz.OFBizAccessProvider">
+		<property name="exclusive-access">true</property>
+	</provider>
+
+</opensymphony-user>
