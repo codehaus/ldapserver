@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 /**
  * @author  Ben Walding
- * @version $Id: ConnectTest.java,v 1.1 2003-11-19 05:01:03 bwalding Exp $
+ * @version $Id: ConnectTest.java,v 1.2 2003-11-25 00:54:38 trygvis Exp $
  */
 public class ConnectTest extends TestCase
 {
@@ -17,7 +17,7 @@ public class ConnectTest extends TestCase
     private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(ConnectTest.class);
     public void testSimple() throws Exception
     { 
-        ServerConfig.getInstance().setProperty(ServerConfig.JAVALDAP_SERVER_PORT, "389");
+        ServerConfig.getInstance().setProperty(ServerConfig.JAVALDAP_SERVER_PORT, "10389");
         Runnable r = new Runnable()
         {
             public void run()
@@ -40,7 +40,7 @@ public class ConnectTest extends TestCase
         Ldap ldap = new Ldap();
         ldap.setBaseDN("");
         ldap.setServer("127.0.0.1");
-        ldap.setPort("389");
+        ldap.setPort("10389");
         ldap.setUser("cn=admin");
         ldap.setPassword("manager");
 
