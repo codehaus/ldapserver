@@ -8,6 +8,8 @@ package org.codehaus.plexus.ldapserver.server.util;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
 
 public class ServerConfig extends java.util.Properties
 {
@@ -23,6 +25,7 @@ public class ServerConfig extends java.util.Properties
     public static final String JAVALDAP_SERVER_BACKENDS = "javaldap.server.backends";
     public static final String JAVALDAP_SCHEMACHECK = "javaldap.schemacheck";
     public static final String JAVALDAP_ACLCHECK = "javaldap.aclcheck";
+    public static final String JAVALDAP_ACLPROPS = "javaldap.acl.props";
     public static final String JAVALDAP_ROOTUSER = "javaldap.rootuser";
     public static final String JAVALDAP_ROOTPW = "javaldap.rootpw";
     public static final String JAVALDAP_DEBUG = "javaldap.debug";
@@ -65,15 +68,29 @@ public class ServerConfig extends java.util.Properties
 
     public void init()
     {
+        InputStream is;
+        
         try
         {
-            FileInputStream is = new FileInputStream( JAVALDAP_PROP );
+            is = new FileInputStream( JAVALDAP_PROP );
             load( is );
             is.close();
         }
         catch ( java.io.FileNotFoundException fnfe )
         {
-            Logger.getInstance().log( Logger.LOG_NORMAL, "Configuration Not Found: " + JAVALDAP_PROP );
+            is = this.getClass().getResourceAsStream("/" + JAVALDAP_PROP);
+            if(is == null) {
+                Logger.getInstance().log( Logger.LOG_NORMAL, "Configuration Not Found: " + JAVALDAP_PROP );
+            }
+            else {
+                try {
+                    load(is);
+                    is.close();
+                }
+                catch(IOException ex) {
+                    Logger.getInstance().log( Logger.LOG_NORMAL, "IO Error Reading /" + JAVALDAP_PROP + " from class.");
+                }
+            }
         }
         catch ( java.io.IOException ioe )
         {

@@ -74,13 +74,20 @@ public class ACLChecker
     {
         this.acls = new Hashtable();
         BufferedReader br = null;
+        String filename;
+        
+        if(ServerConfig.getInstance().containsKey( ServerConfig.JAVALDAP_ACLPROPS ))
+            filename =  (String) ServerConfig.getInstance().get( ServerConfig.JAVALDAP_ACLPROPS );
+        else
+            filename = "acls.prop";
+
         try
         {
-            br = new BufferedReader(new FileReader("acls.prop"));
+            br = new BufferedReader(new FileReader(filename));
         }
         catch (FileNotFoundException fnfe)
         {
-            Logger.getInstance().log(Logger.LOG_NORMAL, "File containing ACLs not found");
+            Logger.getInstance().log(Logger.LOG_NORMAL, "File containing ACLs not found (" + filename + ")");
             return;
         }
 
