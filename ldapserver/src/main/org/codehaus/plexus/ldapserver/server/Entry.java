@@ -161,4 +161,8 @@ public class Entry extends Hashtable implements Serializable
         //LOGGER.debug("New Entry Base: " + getBase());
 
     }
+    
+    public String toString() {
+        return base + "<>" + name + " (" + id + ")"; 
+    }
 }
