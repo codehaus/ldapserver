@@ -63,7 +63,7 @@ public class BackendHandler
         {
             String suffix = (String) schemaProp.get( "backend." + beCount + ".root" );
             String backendType = (String) schemaProp.get( "backend." + beCount + ".type" );
-            System.out.println( "Backend root: " + suffix + " type: " + backendType );
+            LOGGER.debug( "Backend root: " + suffix + " type: " + backendType );
             try
             {
                 handlerTable.put( new DirectoryString( suffix ), Class.forName( backendType ).newInstance() );

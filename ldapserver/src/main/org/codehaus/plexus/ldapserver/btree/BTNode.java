@@ -154,7 +154,7 @@ class BTNode
             //merging leafs
             // neues probelem wenn in allen nodes nur noch ein KeyNode
             // vorhanden ist und man einen l�schen m�chte bleibt mergeBTNode=null
-            // System.out.println(nKey + " | " + mergeBTNode);
+            // LOGGER.debug(nKey + " | " + mergeBTNode);
             for ( int i = nKey, j = 0; j < mergeBTNode.nKey; i++, j++ )
             {
                 kArray[i] = mergeBTNode.getKeyNode( j );
