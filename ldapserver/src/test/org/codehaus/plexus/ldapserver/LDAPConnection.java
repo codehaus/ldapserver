@@ -42,8 +42,11 @@ public class LDAPConnection {
         environment.put(
             Context.PROVIDER_URL,
             "ldap://" + ldap.getServer() + ":" + ldap.getPort() + "/" + ldap.getBaseDN());
-        environment.put(Context.SECURITY_PRINCIPAL, ldap.getUser());
-        environment.put(Context.SECURITY_CREDENTIALS, ldap.getPassword());
+        
+        if(ldap.getUser() != null)
+            environment.put(Context.SECURITY_PRINCIPAL, ldap.getUser());
+        if(ldap.getPassword() != null)
+            environment.put(Context.SECURITY_CREDENTIALS, ldap.getPassword());
 
         Enumeration keys = environment.keys();
         while (keys.hasMoreElements()) {

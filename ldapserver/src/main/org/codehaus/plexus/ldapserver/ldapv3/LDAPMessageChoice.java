@@ -153,6 +153,36 @@ public class LDAPMessageChoice implements LDAPv3
         }
     }
 
+    public int getChoiceId() {
+        return choiceId;
+    }
+
+    public String getChoice() {
+        switch (choiceId) {
+            case BINDREQUEST_CID: return "bind request";
+            case BINDRESPONSE_CID: return "bind response";
+            case UNBINDREQUEST_CID: return "unbind request";
+            case SEARCHREQUEST_CID: return "search request";
+            case SEARCHRESENTRY_CID: return "search resend try";
+            case SEARCHRESDONE_CID: return "search resend done";
+            case SEARCHRESREF_CID: return "search res ref";
+            case MODIFYREQUEST_CID: return "modify request";
+            case MODIFYRESPONSE_CID: return "modify response";
+            case ADDREQUEST_CID: return "add request";
+            case ADDRESPONSE_CID: return "add response";
+            case DELREQUEST_CID: return "del request";
+            case DELRESPONSE_CID: return "del response";
+            case MODDNREQUEST_CID: return "mod dn request";
+            case MODDNRESPONSE_CID: return "mod dn response";
+            case COMPAREREQUEST_CID: return "compare request";
+            case COMPARERESPONSE_CID: return "compare response";
+            case ABANDONREQUEST_CID: return "abandon request";
+            case EXTENDEDREQ_CID: return "extended request";
+            case EXTENDEDRESP_CID: return "extended response";
+            default: return "unknown";
+        }
+    }
+
     /** decoding method.
      * @param dec
      *        decoder object derived from com.ibm.asn1.ASN1Decoder

@@ -39,41 +39,77 @@ public class BackendHandler
 
     private BackendHandler()
     {
-        super();
+    }
+    
+    public boolean init() {
+        int numBackends;
+        String filename;
+        Object backend; 
+
         handlerTable = new Hashtable();
-        handlerTable.put( new DirectoryString( "cn=schema" ), new BackendSchema() );
-        handlerTable.put( new DirectoryString( "" ), new BackendRoot() );
+        handlerTable.put(new DirectoryString("cn=schema"), new BackendSchema());
+        handlerTable.put(new DirectoryString(""), new BackendRoot());
 
         // Read Backend Properties File
         Properties schemaProp = new Properties();
-        try
-        {
-            java.io.FileInputStream is =
-                new FileInputStream( (String) ServerConfig.getInstance().get( ServerConfig.JAVALDAP_SERVER_BACKENDS ) );
-            schemaProp.load( is );
+        try {
+            filename = (String)ServerConfig.getInstance().get(ServerConfig.JAVALDAP_SERVER_BACKENDS);
+            if(filename == null) {
+                LOGGER.warn("Missing configuration entry '" + ServerConfig.JAVALDAP_SERVER_BACKENDS + "'.");
+                return false;
+            }
+
+            FileInputStream is = new FileInputStream(filename);
+            schemaProp.load(is);
             is.close();
         }
-        catch ( Exception e )
-        {
+        catch(Exception ex) {
+            LOGGER.fatal("Exception while loading backend configuration file.", ex);
+            return false;
         }
 
         // Create backends accordingly
-        int numBackends = new Integer( (String) schemaProp.get( "backend.num" ) ).intValue();
-        for ( int beCount = 0; beCount < numBackends; beCount++ )
-        {
-            String suffix = (String) schemaProp.get( "backend." + beCount + ".root" );
-            String backendType = (String) schemaProp.get( "backend." + beCount + ".type" );
-            LOGGER.debug( "Backend root: " + suffix + " type: " + backendType );
-            try
-            {
-                handlerTable.put( new DirectoryString( suffix ), Class.forName( backendType ).newInstance() );
-            }
-            catch ( Exception e )
-            {
-                e.printStackTrace();
-            }
+        try {
+            numBackends = new Integer((String)schemaProp.get("backend.num")).intValue();
+        }
+        catch(NumberFormatException ex) {
+            LOGGER.fatal("'backend.num' must be a integer.");
+            return false;
         }
 
+        if (numBackends < 0)
+            LOGGER.warn("No backends configured! The server might not behave as expected.");
+
+        LOGGER.info("Adding " + numBackends + " backends.");
+        for (int beCount = 0; beCount < numBackends; beCount++) {
+            String suffix = (String)schemaProp.get("backend." + beCount + ".root");
+            String backendType = (String)schemaProp.get("backend." + beCount + ".type");
+            backend = getBackendInstance(backendType);
+            if(backend == null)
+                return false;
+            handlerTable.put(new DirectoryString(suffix), backend);
+            LOGGER.info("Backend root: " + suffix + " type: " + backendType);
+        }
+        
+        return true;
+    }
+    
+    private Object getBackendInstance(String type) {
+        try {
+            return Class.forName(type).newInstance();
+        }
+        catch(ClassNotFoundException ex) {
+            LOGGER.warn("Could not find backend class: '" + type + "'", ex);
+            return null;
+        }
+        catch(IllegalAccessException ex) {
+            LOGGER.warn("Could not access backend class: '" + type + "'", ex);
+            return null;
+        }
+        catch(InstantiationException ex) {
+            LOGGER.warn("Could not instanciate backend class: '" + type + "'", ex);
+            return null;
+        }
     }
 
     public LDAPResultEnum add( Credentials creds, Entry entry ) throws DirectorySchemaViolation
@@ -138,8 +174,7 @@ public class BackendHandler
 
     public static BackendHandler Handler()
     {
-        if ( handler == null )
-        {
+        if (handler == null) {
             handler = new BackendHandler();
         }
         return handler;
@@ -183,7 +218,7 @@ public class BackendHandler
             {
                 selected = (Backend) handlerTable.get( base );
                 selLength = base.length();
-                //LOGGER.debug("Switched to " + selected.getClass().getName() + " backend for: " + base);
+                LOGGER.debug("Switched to " + selected.getClass().getName() + " backend for: " + base);
             }
         }
         return selected;
@@ -199,7 +234,7 @@ public class BackendHandler
             if ( entryName.endsWith( base ) || ( scope != SearchRequestEnum.BASEOBJECT && base.endsWith( entryName ) ) )
             {
                 backs.addElement( handlerTable.get( base ) );
-                //LOGGER.debug("Selected Backend for: " + base);
+                LOGGER.debug("Selected Backend for: " + base);
             }
         }
         return backs;

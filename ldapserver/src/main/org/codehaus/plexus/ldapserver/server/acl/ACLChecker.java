@@ -70,7 +70,7 @@ public class ACLChecker
         return instance;
     }
 
-    public void initialize()
+    public boolean initialize()
     {
         this.acls = new Hashtable();
         BufferedReader br = null;
@@ -88,7 +88,7 @@ public class ACLChecker
         catch (FileNotFoundException fnfe)
         {
             LOGGER.info("File containing ACLs not found (" + filename + ")");
-            return;
+            return false;
         }
 
         try
@@ -121,15 +121,18 @@ public class ACLChecker
             }
             br.close();
         }
-        catch (IOException ioe)
+        catch(IOException ex)
         {
+            LOGGER.warn("Error while loading acls.", ex);
+            return false;
         }
-
+        
+        return true;
     }
 
     public boolean isAllowed(Credentials creds, Character action, DirectoryString target)
     {
-        LOGGER.debug("creds = " + creds);
+        LOGGER.debug("Credentials: " + creds);
 
         boolean allowed = false;
         ACL matchedACL = null;
@@ -138,6 +141,7 @@ public class ACLChecker
 
         if (aclCheck == false)
         {
+            LOGGER.debug("Allowed: true, no acl checks");
             return true;
         }
 
@@ -148,6 +152,7 @@ public class ACLChecker
 
         if (subject.equals(rootUser))
         {
+            LOGGER.debug("Allowed: true, root user");
             return true;
         }
 
@@ -280,14 +285,14 @@ public class ACLChecker
             }
         }
 
-        LOGGER.debug("allowed = " + allowed);
+        LOGGER.debug("Allowed: " + allowed);
 
         return allowed;
     }
 
     public boolean isAllowed(Credentials creds, Character action, DirectoryString target, DirectoryString attr)
     {
-        LOGGER.debug("action = " + action);
+        LOGGER.debug("Action: " + action);
 
         boolean allowed = false;
         ACL matchedACL = null;
