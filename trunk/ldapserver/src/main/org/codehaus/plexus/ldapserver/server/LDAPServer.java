@@ -78,7 +78,7 @@ public class LDAPServer
             return false;
 
         // Initialize the Server Schema
-        if(!new InitSchema().init())
+        if(!(new InitSchema().init()))
             return false;
 
         if(!ACLChecker.getInstance().initialize())
