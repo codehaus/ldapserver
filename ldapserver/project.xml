@@ -4,6 +4,9 @@
   <id>plexus-ldapserver</id>
   <name>Plexus LDAP Server Component</name>
   <currentVersion>1.0-alpha-1</currentVersion>
+
+    <siteAddress>codehaus.org</siteAddress>
+    <siteDirectory>/home/trygvis/public_html/ldap</siteDirectory>
    
   <dependencies>
     <!--dependency>
@@ -28,6 +31,14 @@
   </properties>
 
   <build>
+    <unitTest>
+      <resources>
+        <resource>
+          <directory>src/test-resources</directory>
+          <include>*.properties</include>
+        </resource>
+      </resources>
+    </unitTest>
     <resources>
       <resource>
         <directory>${basedir}/src/misc</directory>
