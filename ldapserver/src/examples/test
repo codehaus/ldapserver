@@ -1,0 +1,22 @@
+#!/bin/bash
+
+HOST=127.0.0.1
+BIND_DN="cn=Admin"
+BIND_PW=manager
+PORT=10389
+OPTIONS="-x -h $HOST -D $BIND_DN -w $BIND_PW -p $PORT"
+
+# Add it
+ldapadd $OPTIONS -f example1.ldif 
+
+# This should give a error message
+ldapadd $OPTIONS -f example1.ldif 
+
+# Show the entry
+# The password option doesn't work with my ldapsearch
+# just enter the password 'manager'
+ldapsearch $OPTIONS -W "objectclass=*"
+
+# Remove the entry
+# this doesn't work yet
+#ldapdelete $OPTIONS "cn=Test,dc=javaldap,dc=com"
