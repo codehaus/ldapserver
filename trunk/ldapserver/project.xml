@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!DOCTYPE project [
   <!ENTITY oslash "&#248;">
@@ -34,7 +34,7 @@
   <repository>
     <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:ldapserver</connection>
     <developerConnection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:ldapserver</developerConnection>
-    <url>http://cvs.codehaus.org/viewcvs.cgi/ldapserver?root=codehaus</url>
+    <url>http://cvs.codehaus.org/viewcvs.cgi/ldapserver/?root=codehaus</url>
   </repository>
 
   <versions/>
@@ -48,10 +48,10 @@
     </mailingList>
 
     <mailingList>
-      <name>LDAP Server Users List</name>
-      <subscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-users</subscribe>
-      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-users</unsubscribe>
-      <archive>http://lists.codehaus.org/pipermail/ldapserver-users/</archive>
+      <name>LDAP Server User List</name>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-user</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/ldapserver-user</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/ldapserver-user/</archive>
     </mailingList>
 
     <mailingList>
@@ -87,7 +87,7 @@
     <developer>
       <name>Trygve Laugst&oslash;l</name>
       <id>trygvis</id>
-      <email>trygvis@codehaus.org</email>
+      <email>trygvis@inamo.no</email>
       <organization>Inamo Software Group</organization>
       <roles>
         <role>Developer</role>
@@ -121,6 +121,7 @@
   </dependencies>
 
   <build>
+    <sourceDirectory>src/main</sourceDirectory>
     <unitTest>
       <resources>
         <resource>
@@ -141,20 +142,5 @@
       </resource>
     </resources>
   </build>
-
-  <reports>
-    <report>maven-jdepend-plugin</report>
-    <report>maven-checkstyle-plugin</report>
-    <report>maven-changes-plugin</report>
-    <report>maven-changelog-plugin</report>
-    <report>maven-developer-activity-plugin</report>
-    <report>maven-file-activity-plugin</report>
-    <report>maven-license-plugin</report>
-    <report>maven-javadoc-plugin</report>
-    <report>maven-jxr-plugin</report>
-    <report>maven-junit-report-plugin</report>
-    <report>maven-linkcheck-plugin</report>
-    <report>maven-tasklist-plugin</report>
-  </reports>
 
 </project>
