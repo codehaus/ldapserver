@@ -2,3 +2,4 @@ dn: cn=Test,dc=javaldap,dc=com
 objectclass: organizationalPerson
 cn: Test
 sn: Test
+title: Orginal title
