@@ -27,13 +27,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
 import org.codehaus.plexus.ldapserver.server.util.ServerConfig;
+import java.io.IOException;
 import org.xml.sax.HandlerBase;
 import org.xml.sax.Parser;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.ParserFactory;
 
 public class InitSchema
 {
-
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(InitSchema.class);
+    
     private static final String
         DEFAULT_PARSER_NAME = "org.apache.xerces.parsers.SAXParser";
 
@@ -45,12 +48,11 @@ public class InitSchema
         super();
     }
 
-    public void init()
+    public boolean init()
     {
 
         String parserName = DEFAULT_PARSER_NAME;
-        try
-        {
+        try {
             HandlerBase handler = new SchemaXMLHandler();
 
             Parser parser = ParserFactory.makeParser( parserName );
@@ -58,9 +60,27 @@ public class InitSchema
             parser.setErrorHandler( handler );
             parser.parse( (String) ServerConfig.getInstance().get( ServerConfig.JAVALDAP_STDSCHEMA ) );
         }
-        catch ( Exception e )
-        {
-            e.printStackTrace( System.err );
+        catch(ClassNotFoundException ex) {
+            LOGGER.warn("Exception while parsing schema.", ex);
+            return false;
         }
+        catch(SAXException ex) {
+            LOGGER.warn("Exception while parsing schema.", ex);
+            return false;
+        }
+        catch(IOException ex) {
+            LOGGER.warn("Exception while parsing schema.", ex);
+            return false;
+        }
+        catch(IllegalAccessException ex) {
+            LOGGER.warn("Exception while parsing schema.", ex);
+            return false;
+        }
+        catch(InstantiationException ex) {
+            LOGGER.warn("Exception while parsing schema.", ex);
+            return false;
+        }
+
+        return true;
     }
 }

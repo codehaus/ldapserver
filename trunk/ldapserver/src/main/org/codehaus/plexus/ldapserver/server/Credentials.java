@@ -85,4 +85,18 @@ public class Credentials
     {
         user = newUser;
     }
+    
+    /**
+     * Returns a string on the form <code>"user: <user>, auth: [none|simple|sasl]"</code>.
+     * 
+     * @return Returns a string on the form <code>"user: <user>, auth: [none|simple|sasl]"</code>.
+     */
+    public String toString() {
+        switch(authType) {
+            case AUTH_NONE: return "user: " + user + ", auth: none";
+            case AUTH_SIMPLE: return "user: " + user + ", auth: simple";
+            case AUTH_SASL: return "user: " + user + ", auth: sasl";
+            default: return "user: " + user + ", auth: unknown";
+        } 
+    }
 }

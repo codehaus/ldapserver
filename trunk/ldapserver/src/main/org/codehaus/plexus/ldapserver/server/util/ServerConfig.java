@@ -1,16 +1,16 @@
 package org.codehaus.plexus.ldapserver.server.util;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.IOException;
+
 /**
  * Class for reading and retrieving the server's file-based configuration
  *
  * @author <a href="mailto:clayton.donley@octetstring.com">Clayton Donley</a>
  */
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-
 public class ServerConfig extends java.util.Properties
 {
     private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(ServerConfig.class);
@@ -67,36 +67,53 @@ public class ServerConfig extends java.util.Properties
         return instance;
     }
 
-    public void init()
+    public boolean init()
     {
+        if(!loadFromFile())
+            if(!loadFromClass())
+                return false;
+
+        return true;
+    }
+    
+    private boolean loadFromFile() {
         InputStream is;
         
-        try
-        {
-            is = new FileInputStream( JAVALDAP_PROP );
-            load( is );
+        try {
+            is = new FileInputStream(JAVALDAP_PROP);
+            load(is);
             is.close();
         }
-        catch ( java.io.FileNotFoundException fnfe )
-        {
-            is = this.getClass().getResourceAsStream("/" + JAVALDAP_PROP);
-            if(is == null) {
-                LOGGER.info("Configuration Not Found: " + JAVALDAP_PROP );
-            }
-            else {
-                try {
-                    load(is);
-                    is.close();
-                }
-                catch(IOException ex) {
-                    LOGGER.info("IO Error Reading /" + JAVALDAP_PROP + " from class.");
-                }
-            }
+        catch(FileNotFoundException fnfe) {
+            return false;
         }
-        catch ( java.io.IOException ioe )
-        {
-            LOGGER.info("IO Error Reading " + JAVALDAP_PROP );
+        catch(IOException ioe) {
+            LOGGER.warn("IO Error Reading " + JAVALDAP_PROP );
         }
+        
+        return true;
+    }
+    
+    private boolean loadFromClass() {
+        InputStream is;
+        
+        is = this.getClass().getResourceAsStream("/" + JAVALDAP_PROP);
+        
+        if(is == null) {
+            LOGGER.warn("Configuration not found: " + JAVALDAP_PROP);
+            return false;
+        }
+
+        try {
+            load(is);
+            is.close();
+        }
+        catch(IOException ex) {
+            LOGGER.warn("Error reading /" + JAVALDAP_PROP + " from class.");
+            return false;
+        }
+
+        return true;
     }
 
     public void write()
