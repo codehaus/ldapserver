@@ -24,6 +24,6 @@ class StringComparator implements Comparator
 
     public Object getKey()
     {
-        return (Object) text;
+        return text;
     }
 }
