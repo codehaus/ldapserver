@@ -2,7 +2,7 @@
  * (c) Copyright 2001 MyCorporation.
  * All Rights Reserved.
  */
-package org.codehaus.plexusl.ldapserver;
+package org.codehaus.plexus.ldapserver;
 
 import java.io.IOException;
 import java.util.Enumeration;

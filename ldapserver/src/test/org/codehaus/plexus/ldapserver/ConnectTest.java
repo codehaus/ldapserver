@@ -1,4 +1,4 @@
-package org.codehaus.plexusl.ldapserver;
+package org.codehaus.plexus.ldapserver;
 
 import javax.naming.directory.DirContext;
 
@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 /**
  * @author  Ben Walding
- * @version $Id: ConnectTest.java,v 1.2 2003-11-19 03:52:06 bwalding Exp $
+ * @version $Id: ConnectTest.java,v 1.1 2003-11-19 05:01:03 bwalding Exp $
  */
 public class ConnectTest extends TestCase
 {
