@@ -1,10 +1,10 @@
 package org.codehaus.plexus.ldapserver.server.util;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Class for reading and retrieving the server's file-based configuration
@@ -49,15 +49,6 @@ public class ServerConfig extends java.util.Properties
         super();
     }
 
-    /**
-     * ServerConfig constructor comment.
-     * @param defaults java.util.Properties
-     */
-    private ServerConfig( java.util.Properties defaults )
-    {
-        super( defaults );
-    }
-
     public static ServerConfig getInstance()
     {
         if ( instance == null )
@@ -69,10 +60,11 @@ public class ServerConfig extends java.util.Properties
 
     public boolean init()
     {
-        if(!loadFromFile())
-            if(!loadFromClass())
+        if(!loadFromFile()) {
+            if(!loadFromClass()) {
                 return false;
-
+            }
+        }
         return true;
     }
     
@@ -95,25 +87,26 @@ public class ServerConfig extends java.util.Properties
     }
     
     private boolean loadFromClass() {
-        InputStream is;
+        InputStream is = this.getClass().getResourceAsStream("/" + JAVALDAP_PROP);
         
-        is = this.getClass().getResourceAsStream("/" + JAVALDAP_PROP);
-        
-        if(is == null) {
-            LOGGER.warn("Configuration not found: " + JAVALDAP_PROP);
+        if (is == null) {
+            LOGGER.info("Configuration not found: " + JAVALDAP_PROP);
             return false;
         }
 
         try {
             load(is);
-            is.close();
+            return true;
         }
-        catch(IOException ex) {
-            LOGGER.warn("Error reading /" + JAVALDAP_PROP + " from class.");
+        catch(IOException ex) 
+        {
+            LOGGER.warn("Error reading /" + JAVALDAP_PROP + " from class path.");
             return false;
+        } 
+        finally 
+        {
+            StreamUtility.close(is);
         }
-
-        return true;
     }
 
     public void write()
@@ -121,8 +114,8 @@ public class ServerConfig extends java.util.Properties
         try
         {
             FileOutputStream os = new FileOutputStream( JAVALDAP_PROP );
-            save( os, JAVALDAP_PROP_DESC );
-            os.close();
+            store( os, JAVALDAP_PROP_DESC );
+            StreamUtility.close(os);
         }
         catch ( java.io.IOException ioe )
         {
