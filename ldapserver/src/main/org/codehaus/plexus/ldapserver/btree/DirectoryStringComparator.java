@@ -8,8 +8,7 @@ class DirectoryStringComparator implements Comparator
 
     public DirectoryStringComparator( DirectoryString ds )
     {
-        this.ds = ds;
-        ;
+        this.ds = ds;        
     }
 
     public int compareTo( Object obj )
