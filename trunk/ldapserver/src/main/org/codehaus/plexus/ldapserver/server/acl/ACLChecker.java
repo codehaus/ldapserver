@@ -1,6 +1,5 @@
 package org.codehaus.plexus.ldapserver.server.acl;
 
-
 /**
  * Class for checking access control lists (ACLs)
  * @author <a href="mailto:clayton.donley@octetstring.com">Clayton Donley</a>
@@ -23,27 +22,27 @@ import java.util.Vector;
 public class ACLChecker
 {
 
-    private static Hashtable acls = null;
+    private Hashtable acls = null;
     private static ACLChecker instance = null;
     private boolean aclCheck = true;
     private DirectoryString rootUser = null;
 
-    private static final DirectoryString ATTR_ALL = new DirectoryString( "[all]" );
-    private static final DirectoryString ROOTENTRY = new DirectoryString( "[root]" );
+    private static final DirectoryString ATTR_ALL = new DirectoryString("[all]");
+    private static final DirectoryString ROOTENTRY = new DirectoryString("[root]");
 
-    public static final Character PERM_ADD = new Character( 'a' );
-    public static final Character PERM_DELETE = new Character( 'd' );
-    public static final Character PERM_EXPORT = new Character( 'e' );
-    public static final Character PERM_IMPORT = new Character( 'i' );
-    public static final Character PERM_RENAMEDN = new Character( 'n' );
-    public static final Character PERM_BROWSEDN = new Character( 'b' );
-    public static final Character PERM_RETURNDN = new Character( 't' );
-    public static final Character PERM_READ = new Character( 'r' );
-    public static final Character PERM_SEARCH = new Character( 's' );
-    public static final Character PERM_WRITE = new Character( 'w' );
-    public static final Character PERM_OBLITERATE = new Character( 'o' );
-    public static final Character PERM_COMPARE = new Character( 'c' );
-    public static final Character PERM_MAKE = new Character( 'm' );
+    public static final Character PERM_ADD = new Character('a');
+    public static final Character PERM_DELETE = new Character('d');
+    public static final Character PERM_EXPORT = new Character('e');
+    public static final Character PERM_IMPORT = new Character('i');
+    public static final Character PERM_RENAMEDN = new Character('n');
+    public static final Character PERM_BROWSEDN = new Character('b');
+    public static final Character PERM_RETURNDN = new Character('t');
+    public static final Character PERM_READ = new Character('r');
+    public static final Character PERM_SEARCH = new Character('s');
+    public static final Character PERM_WRITE = new Character('w');
+    public static final Character PERM_OBLITERATE = new Character('o');
+    public static final Character PERM_COMPARE = new Character('c');
+    public static final Character PERM_MAKE = new Character('m');
 
     /**
      * ACLChecker constructor comment.
@@ -51,20 +50,20 @@ public class ACLChecker
     private ACLChecker()
     {
         super();
-        if ( ( (String) ServerConfig.getInstance().get( ServerConfig.JAVALDAP_ACLCHECK ) ).equals( "0" ) )
+        if (((String) ServerConfig.getInstance().get(ServerConfig.JAVALDAP_ACLCHECK)).equals("0"))
         {
             aclCheck = false;
         }
         else
         {
-            rootUser = new DirectoryString( (String) ServerConfig.getInstance().get( ServerConfig.JAVALDAP_ROOTUSER ) );
+            rootUser = new DirectoryString((String) ServerConfig.getInstance().get(ServerConfig.JAVALDAP_ROOTUSER));
         }
 
     }
 
     public static ACLChecker getInstance()
     {
-        if ( instance == null )
+        if (instance == null)
         {
             instance = new ACLChecker();
         }
@@ -77,99 +76,100 @@ public class ACLChecker
         BufferedReader br = null;
         try
         {
-            br = new BufferedReader( new FileReader( "acls.prop" ) );
+            br = new BufferedReader(new FileReader("acls.prop"));
         }
-        catch ( FileNotFoundException fnfe )
+        catch (FileNotFoundException fnfe)
         {
-            Logger.getInstance().log( Logger.LOG_NORMAL, "File containing ACLs not found" );
+            Logger.getInstance().log(Logger.LOG_NORMAL, "File containing ACLs not found");
             return;
         }
 
         try
         {
-            while ( br.ready() )
+            while (br.ready())
             {
                 String acl = br.readLine();
-                if ( acl != null && acl.indexOf( '|' ) != -1 )
+                if (acl != null && acl.indexOf('|') != -1)
                 {
-                    StringTokenizer aclTok = new StringTokenizer( acl, "|" );
-                    DirectoryString aclLoc = new DirectoryString( aclTok.nextToken() );
-                    System.out.println( aclLoc );
-                    if ( aclLoc.equals( ROOTENTRY ) )
+                    StringTokenizer aclTok = new StringTokenizer(acl, "|");
+                    DirectoryString aclLoc = new DirectoryString(aclTok.nextToken());
+                    System.out.println(aclLoc);
+                    if (aclLoc.equals(ROOTENTRY))
                     {
-                        aclLoc = new DirectoryString( "" );
+                        aclLoc = new DirectoryString("");
                     }
                     Vector myAcls = null;
-                    if ( this.acls.containsKey( aclLoc ) )
+                    if (this.acls.containsKey(aclLoc))
                     {
-                        myAcls = (Vector) this.acls.get( aclLoc );
+                        myAcls = (Vector) this.acls.get(aclLoc);
                     }
                     else
                     {
                         myAcls = new Vector();
                     }
-                    myAcls.addElement( new ACL( aclTok.nextToken() ) );
-                    this.acls.put( aclLoc, myAcls );
+                    myAcls.addElement(new ACL(aclTok.nextToken()));
+                    this.acls.put(aclLoc, myAcls);
                 }
             }
             br.close();
         }
-        catch ( IOException ioe )
+        catch (IOException ioe)
         {
         }
 
     }
 
-    public boolean isAllowed( Credentials creds, Character action, DirectoryString target )
+    public boolean isAllowed(Credentials creds, Character action, DirectoryString target)
     {
-        System.out.println( "creds = " + creds );
+        System.out.println("creds = " + creds);
 
         boolean allowed = false;
         ACL matchedACL = null;
         DirectoryString matchedLoc = null;
         DirectoryString subject = null;
 
-        if ( aclCheck == false )
+        if (aclCheck == false)
         {
             return true;
         }
 
-        if ( creds != null )
+        if (creds != null)
         {
             subject = creds.getUser();
         }
 
-        if ( subject.equals( rootUser ) )
+        if (subject.equals(rootUser))
         {
             return true;
         }
 
         Enumeration aclEnum = acls.keys();
-        while ( aclEnum.hasMoreElements() )
+        while (aclEnum.hasMoreElements())
         {
             DirectoryString aclLoc = (DirectoryString) aclEnum.nextElement();
-            if ( target.endsWith( aclLoc ) )
+            if (target.endsWith(aclLoc))
             {
-                Enumeration oneAclSet = ( (Vector) acls.get( aclLoc ) ).elements();
-                while ( oneAclSet.hasMoreElements() )
+                Enumeration oneAclSet = ((Vector) acls.get(aclLoc)).elements();
+                while (oneAclSet.hasMoreElements())
                 {
                     ACL oneAcl = (ACL) oneAclSet.nextElement();
-                    if ( oneAcl.isScopeSubtree() || target.equals( aclLoc ) )
+                    if (oneAcl.isScopeSubtree() || target.equals(aclLoc))
                     {
-                        if ( oneAcl.getSubjectType() == oneAcl.SUBJECT_PUBLIC ||
-                            ( oneAcl.getSubjectType() == oneAcl.SUBJECT_AUTHZID && oneAcl.isAuthzDN() &&
-                            oneAcl.getSubject().equals( subject ) ) ||
-                            ( oneAcl.getSubjectType() == oneAcl.SUBJECT_THIS && subject.equals( target ) ) )
+                        if (oneAcl.getSubjectType() == oneAcl.SUBJECT_PUBLIC
+                            || (oneAcl.getSubjectType() == oneAcl.SUBJECT_AUTHZID
+                                && oneAcl.isAuthzDN()
+                                && oneAcl.getSubject().equals(subject))
+                            || (oneAcl.getSubjectType() == oneAcl.SUBJECT_THIS && subject.equals(target)))
                         {
-                            if ( oneAcl.isScopeSubtree() || subject.equals( aclLoc ) )
+                            if (oneAcl.isScopeSubtree() || subject.equals(aclLoc))
                             {
-                                if ( oneAcl.getPermission().contains( action ) )
+                                if (oneAcl.getPermission().contains(action))
                                 {
-                                    if ( matchedACL == null )
+                                    if (matchedACL == null)
                                     {
                                         matchedACL = oneAcl;
                                         matchedLoc = aclLoc;
-                                        if ( oneAcl.isGrant() )
+                                        if (oneAcl.isGrant())
                                         {
                                             allowed = true;
                                         }
@@ -180,13 +180,13 @@ public class ACLChecker
                                     }
                                     else
                                     {
-                                        if ( !oneAcl.isScopeSubtree() )
+                                        if (!oneAcl.isScopeSubtree())
                                         {
-                                            if ( !matchedACL.isScopeSubtree() )
+                                            if (!matchedACL.isScopeSubtree())
                                             {
-                                                if ( matchedACL.getSubjectType() < oneAcl.getSubjectType() )
+                                                if (matchedACL.getSubjectType() < oneAcl.getSubjectType())
                                                 {
-                                                    if ( !oneAcl.isGrant() )
+                                                    if (!oneAcl.isGrant())
                                                     {
                                                         allowed = false;
                                                     }
@@ -199,7 +199,7 @@ public class ACLChecker
                                                 }
                                                 else
                                                 {
-                                                    if ( !oneAcl.isGrant() || !matchedACL.isGrant() )
+                                                    if (!oneAcl.isGrant() || !matchedACL.isGrant())
                                                     {
                                                         allowed = false;
                                                     }
@@ -213,7 +213,7 @@ public class ACLChecker
                                             {
                                                 matchedACL = oneAcl;
                                                 matchedLoc = aclLoc;
-                                                if ( oneAcl.isGrant() )
+                                                if (oneAcl.isGrant())
                                                 {
                                                     allowed = true;
                                                 }
@@ -223,11 +223,11 @@ public class ACLChecker
                                                 }
                                             }
                                         }
-                                        else if ( matchedLoc.length() < aclLoc.length() )
+                                        else if (matchedLoc.length() < aclLoc.length())
                                         {
                                             matchedACL = oneAcl;
                                             matchedLoc = aclLoc;
-                                            if ( oneAcl.isGrant() )
+                                            if (oneAcl.isGrant())
                                             {
                                                 allowed = true;
                                             }
@@ -236,13 +236,13 @@ public class ACLChecker
                                                 allowed = false;
                                             }
                                         }
-                                        else if ( matchedLoc.length() == aclLoc.length() )
+                                        else if (matchedLoc.length() == aclLoc.length())
                                         {
-                                            if ( matchedACL.getSubjectType() < oneAcl.getSubjectType() )
+                                            if (matchedACL.getSubjectType() < oneAcl.getSubjectType())
                                             {
                                                 matchedACL = oneAcl;
                                                 matchedLoc = aclLoc;
-                                                if ( oneAcl.isGrant() )
+                                                if (oneAcl.isGrant())
                                                 {
                                                     allowed = true;
                                                 }
@@ -251,9 +251,9 @@ public class ACLChecker
                                                     allowed = false;
                                                 }
                                             }
-                                            else if ( matchedACL.getSubjectType() == oneAcl.getSubjectType() )
+                                            else if (matchedACL.getSubjectType() == oneAcl.getSubjectType())
                                             {
-                                                if ( !matchedACL.isGrant() || !oneAcl.isGrant() )
+                                                if (!matchedACL.isGrant() || !oneAcl.isGrant())
                                                 {
                                                     allowed = false;
                                                 }
@@ -272,14 +272,14 @@ public class ACLChecker
             }
         }
 
-        System.out.println( "allowed = " + allowed );
+        System.out.println("allowed = " + allowed);
 
         return allowed;
     }
 
-    public boolean isAllowed( Credentials creds, Character action, DirectoryString target, DirectoryString attr )
+    public boolean isAllowed(Credentials creds, Character action, DirectoryString target, DirectoryString attr)
     {
-        System.out.println( "action = " + action );
+        System.out.println("action = " + action);
 
         boolean allowed = false;
         ACL matchedACL = null;
@@ -287,49 +287,50 @@ public class ACLChecker
 
         DirectoryString subject = null;
 
-        if ( aclCheck == false )
+        if (aclCheck == false)
         {
             return true;
         }
 
-        if ( creds != null )
+        if (creds != null)
         {
             subject = creds.getUser();
         }
 
-        if ( subject.equals( rootUser ) )
+        if (subject.equals(rootUser))
         {
             return true;
         }
 
         Enumeration aclEnum = acls.keys();
-        while ( aclEnum.hasMoreElements() )
+        while (aclEnum.hasMoreElements())
         {
             DirectoryString aclLoc = (DirectoryString) aclEnum.nextElement();
-            if ( target.endsWith( aclLoc ) )
+            if (target.endsWith(aclLoc))
             {
-                Enumeration oneAclSet = ( (Vector) acls.get( aclLoc ) ).elements();
-                while ( oneAclSet.hasMoreElements() )
+                Enumeration oneAclSet = ((Vector) acls.get(aclLoc)).elements();
+                while (oneAclSet.hasMoreElements())
                 {
                     ACL oneAcl = (ACL) oneAclSet.nextElement();
-                    if ( oneAcl.isScopeSubtree() || target.equals( aclLoc ) )
+                    if (oneAcl.isScopeSubtree() || target.equals(aclLoc))
                     {
-                        if ( oneAcl.getSubjectType() == oneAcl.SUBJECT_PUBLIC ||
-                            ( oneAcl.getSubjectType() == oneAcl.SUBJECT_AUTHZID && oneAcl.isAuthzDN() &&
-                            oneAcl.getSubject().equals( subject ) ) ||
-                            ( oneAcl.getSubjectType() == oneAcl.SUBJECT_THIS && subject.equals( target ) ) )
+                        if (oneAcl.getSubjectType() == oneAcl.SUBJECT_PUBLIC
+                            || (oneAcl.getSubjectType() == oneAcl.SUBJECT_AUTHZID
+                                && oneAcl.isAuthzDN()
+                                && oneAcl.getSubject().equals(subject))
+                            || (oneAcl.getSubjectType() == oneAcl.SUBJECT_THIS && subject.equals(target)))
                         {
-                            if ( oneAcl.isScopeSubtree() || subject.equals( aclLoc ) )
+                            if (oneAcl.isScopeSubtree() || subject.equals(aclLoc))
                             {
-                                if ( oneAcl.getPermission().contains( action ) )
+                                if (oneAcl.getPermission().contains(action))
                                 {
-                                    if ( oneAcl.getAttr().contains( attr ) || oneAcl.getAttr().contains( ATTR_ALL ) )
+                                    if (oneAcl.getAttr().contains(attr) || oneAcl.getAttr().contains(ATTR_ALL))
                                     {
-                                        if ( matchedACL == null )
+                                        if (matchedACL == null)
                                         {
                                             matchedACL = oneAcl;
                                             matchedLoc = aclLoc;
-                                            if ( oneAcl.isGrant() )
+                                            if (oneAcl.isGrant())
                                             {
                                                 allowed = true;
                                             }
@@ -340,13 +341,13 @@ public class ACLChecker
                                         }
                                         else
                                         {
-                                            if ( !oneAcl.isScopeSubtree() )
+                                            if (!oneAcl.isScopeSubtree())
                                             {
-                                                if ( !matchedACL.isScopeSubtree() )
+                                                if (!matchedACL.isScopeSubtree())
                                                 {
-                                                    if ( matchedACL.getSubjectType() < oneAcl.getSubjectType() )
+                                                    if (matchedACL.getSubjectType() < oneAcl.getSubjectType())
                                                     {
-                                                        if ( !oneAcl.isGrant() )
+                                                        if (!oneAcl.isGrant())
                                                         {
                                                             allowed = false;
                                                         }
@@ -359,7 +360,7 @@ public class ACLChecker
                                                     }
                                                     else
                                                     {
-                                                        if ( !oneAcl.isGrant() || !matchedACL.isGrant() )
+                                                        if (!oneAcl.isGrant() || !matchedACL.isGrant())
                                                         {
                                                             allowed = false;
                                                         }
@@ -373,7 +374,7 @@ public class ACLChecker
                                                 {
                                                     matchedACL = oneAcl;
                                                     matchedLoc = aclLoc;
-                                                    if ( oneAcl.isGrant() )
+                                                    if (oneAcl.isGrant())
                                                     {
                                                         allowed = true;
                                                     }
@@ -383,11 +384,11 @@ public class ACLChecker
                                                     }
                                                 }
                                             }
-                                            else if ( matchedLoc.length() < aclLoc.length() )
+                                            else if (matchedLoc.length() < aclLoc.length())
                                             {
                                                 matchedACL = oneAcl;
                                                 matchedLoc = aclLoc;
-                                                if ( oneAcl.isGrant() )
+                                                if (oneAcl.isGrant())
                                                 {
                                                     allowed = true;
                                                 }
@@ -396,13 +397,13 @@ public class ACLChecker
                                                     allowed = false;
                                                 }
                                             }
-                                            else if ( matchedLoc.length() == aclLoc.length() )
+                                            else if (matchedLoc.length() == aclLoc.length())
                                             {
-                                                if ( matchedACL.getSubjectType() < oneAcl.getSubjectType() )
+                                                if (matchedACL.getSubjectType() < oneAcl.getSubjectType())
                                                 {
                                                     matchedACL = oneAcl;
                                                     matchedLoc = aclLoc;
-                                                    if ( oneAcl.isGrant() )
+                                                    if (oneAcl.isGrant())
                                                     {
                                                         allowed = true;
                                                     }
@@ -411,9 +412,9 @@ public class ACLChecker
                                                         allowed = false;
                                                     }
                                                 }
-                                                else if ( matchedACL.getSubjectType() == oneAcl.getSubjectType() )
+                                                else if (matchedACL.getSubjectType() == oneAcl.getSubjectType())
                                                 {
-                                                    if ( !matchedACL.isGrant() || !oneAcl.isGrant() )
+                                                    if (!matchedACL.isGrant() || !oneAcl.isGrant())
                                                     {
                                                         allowed = false;
                                                     }
