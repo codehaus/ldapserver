@@ -18,8 +18,20 @@ public class Logger
 
     private Logger()
     {
-        logLevel = new Integer( (String) ServerConfig.getInstance().get( ServerConfig.JAVALDAP_DEBUG ) ).intValue();
-
+        Object value;
+        
+        value = ServerConfig.getInstance().get( ServerConfig.JAVALDAP_DEBUG );
+        if(value == null) {
+            logLevel = LOG_DEBUG;
+            return;
+        }
+        
+        try {
+            logLevel = new Integer(value.toString()).intValue();
+        }
+        catch(NumberFormatException ex) {
+            logLevel = LOG_DEBUG;
+        }
     }
 
     public static Logger getInstance()
