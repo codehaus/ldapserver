@@ -11,7 +11,6 @@ package org.codehaus.plexus.ldapserver.server;
  */
 
 import org.codehaus.plexus.ldapserver.server.schema.InitSchema;
-import org.codehaus.plexus.ldapserver.server.util.Logger;
 import org.codehaus.plexus.ldapserver.server.util.ServerConfig;
 import org.codehaus.plexus.ldapserver.server.acl.ACLChecker;
 import org.codehaus.plexus.ldapserver.server.backend.BackendHandler;
@@ -21,7 +20,7 @@ import java.net.ServerSocket;
 
 public class LDAPServer
 {
-
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(LDAPServer.class);
 
     public static void main( String[] args ) throws Exception
     {
@@ -47,15 +46,14 @@ public class LDAPServer
         BackendHandler.Handler();
 
         // Start Listening on the LDAP Port
-        Logger.getInstance().log( Logger.LOG_NORMAL,
-                                  "Server Starting on port " + serverPort );
+        LOGGER.info("Server Starting on port " + serverPort );
         ServerSocket serverSock = new ServerSocket( serverPort );
 
         // Loop infinitely and create new ConnectionHandler threads
         // when new connections are received
         while ( true )
         {
-            Logger.getInstance().log( Logger.LOG_DEBUG, "Connection Initiated." );
+            LOGGER.info( "Connection Initiated." );
             //ConnectionHandler cHandle = (ConnectionHandler)ConnectionHandlerPool.getInstance().checkOut();
             //cHandle.prepare(serverSock.accept());
             //cHandle.start();

@@ -22,14 +22,14 @@ import org.codehaus.plexus.ldapserver.server.syntax.DirectoryString;
 import org.codehaus.plexus.ldapserver.server.util.DirectoryException;
 import org.codehaus.plexus.ldapserver.server.util.DirectorySchemaViolation;
 import org.codehaus.plexus.ldapserver.server.util.InvalidDNException;
-import org.codehaus.plexus.ldapserver.server.util.Logger;
 
 import java.util.Enumeration;
 import java.util.Vector;
 
 public class BackendMemory implements Backend
 {
-
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(BackendMemory.class);
+    
     private BTree datastore = null;
     private BTree idtodnmap = null;
     private BTree indextable = null;
@@ -90,8 +90,8 @@ public class BackendMemory implements Backend
             case Filter.EQUALITYMATCH_CID:
                 String matchType = new String( currentFilter.equalityMatch.attributeDesc );
                 String matchVal = new String( currentFilter.equalityMatch.assertionValue );
-                Logger.getInstance().log( Logger.LOG_DEBUG, "Filter: " + matchType + "=" + matchVal );
-                Logger.getInstance().log( Logger.LOG_DEBUG, "Base: " + base );
+                LOGGER.debug("Filter: " + matchType + "=" + matchVal );
+                LOGGER.debug("Base: " + base );
                 matchThisFilter = searchExact( base, scope, matchType, matchVal, true );
                 break;
 

@@ -8,7 +8,6 @@ package org.codehaus.plexus.ldapserver.server.acl;
  */
 
 import org.codehaus.plexus.ldapserver.server.syntax.DirectoryString;
-import org.codehaus.plexus.ldapserver.server.util.Logger;
 import org.codehaus.plexus.ldapserver.server.util.DNUtility;
 
 import java.util.Enumeration;
@@ -17,6 +16,8 @@ import java.util.Vector;
 
 public class ACL
 {
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(ACL.class);
+
     private boolean scopeSubtree = false;
     private boolean grant = false;
     private Vector permission = null;
@@ -129,7 +130,7 @@ public class ACL
             }
             catch ( org.codehaus.plexus.ldapserver.server.util.InvalidDNException ide )
             {
-                Logger.getInstance().log( Logger.LOG_NORMAL, "Invalid DN Specified in ACL" );
+                LOGGER.info("Invalid DN Specified in ACL" );
             }
         }
         else if ( subType.equalsIgnoreCase( "public" ) )
@@ -164,7 +165,7 @@ public class ACL
             }
             catch ( org.codehaus.plexus.ldapserver.server.util.InvalidDNException ide )
             {
-                Logger.getInstance().log( Logger.LOG_NORMAL, "Invalid DN Specified in ACL" );
+                LOGGER.info("Invalid DN Specified in ACL" );
             }
         }
 

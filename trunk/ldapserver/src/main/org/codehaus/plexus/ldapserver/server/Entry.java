@@ -19,6 +19,7 @@ import java.util.Vector;
 
 public class Entry extends Hashtable implements Serializable
 {
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(Entry.class);
 
     private DirectoryString name = null;
     private DirectoryString base = null;
@@ -156,8 +157,8 @@ public class Entry extends Hashtable implements Serializable
         }
         setBase( DNUtility.getInstance().createDN( rdnComponents ) );
 
-        //Logger.getInstance().log(Logger.LOG_DEBUG,"New Entry Name: " + getName());
-        //Logger.getInstance().log(Logger.LOG_DEBUG,"New Entry Base: " + getBase());
+        //LOGGER.debug("New Entry Name: " + getName());
+        //LOGGER.debug("New Entry Base: " + getBase());
 
     }
 }

@@ -18,14 +18,13 @@ import com.ibm.util.*;
 
 import java.io.PrintStream;
 
-/** This class represents the ASN.1 SEQUENCE type <tt>LDAPMessage</tt>.
+/** 
+ * This class represents the ASN.1 SEQUENCE type <tt>LDAPMessage</tt>.
  * For each sequence member, sequence classes contain a
  * public member variable of the corresponding Java type.
  * @author Snacc for Java
- * @version Fri Jul  2 18:01:43 1999
-
+ * @version $Id: LDAPMessage.java,v 1.3 2003-11-26 01:16:04 trygvis Exp $
  */
-
 public class LDAPMessage implements LDAPv3
 {
     /** log4j logger */

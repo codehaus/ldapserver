@@ -32,7 +32,8 @@ import java.io.FileInputStream;
 
 public class BackendHandler
 {
-
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(BackendHandler.class);
+    
     private static BackendHandler handler = null;
     private static Hashtable handlerTable = null;
 
@@ -182,7 +183,7 @@ public class BackendHandler
             {
                 selected = (Backend) handlerTable.get( base );
                 selLength = base.length();
-                //Logger.getInstance().log(Logger.LOG_DEBUG,"Switched to " + selected.getClass().getName() + " backend for: " + base);
+                //LOGGER.debug("Switched to " + selected.getClass().getName() + " backend for: " + base);
             }
         }
         return selected;
@@ -198,7 +199,7 @@ public class BackendHandler
             if ( entryName.endsWith( base ) || ( scope != SearchRequestEnum.BASEOBJECT && base.endsWith( entryName ) ) )
             {
                 backs.addElement( handlerTable.get( base ) );
-                //Logger.getInstance().log(Logger.LOG_DEBUG,"Selected Backend for: " + base);
+                //LOGGER.debug("Selected Backend for: " + base);
             }
         }
         return backs;
