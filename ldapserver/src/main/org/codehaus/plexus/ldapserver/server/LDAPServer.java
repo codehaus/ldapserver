@@ -42,7 +42,7 @@ public class LDAPServer
         // Read LDAP Server Port from Configuration
         String configPort = (String) ServerConfig.getInstance().get( ServerConfig.JAVALDAP_SERVER_PORT );
         int serverPort = new Integer( configPort ).intValue();
-serverPort = 389;
+
         // Initialize Backend Handler
         BackendHandler.Handler();
 
