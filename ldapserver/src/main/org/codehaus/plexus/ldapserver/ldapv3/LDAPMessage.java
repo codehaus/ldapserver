@@ -28,6 +28,8 @@ import java.io.PrintStream;
 
 public class LDAPMessage implements LDAPv3
 {
+    /** log4j logger */
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(LDAPMessage.class);
 
     /** member variable representing the sequence member messageID of type java.math.BigInteger */
     public java.math.BigInteger messageID;
@@ -57,6 +59,9 @@ public class LDAPMessage implements LDAPv3
      */
     public void decode( ASN1Decoder dec ) throws ASN1Exception
     {
+        LOGGER.debug("dec.toString() = " + dec.toString());
+        LOGGER.debug("dec.peekNextTag() = " + dec.peekNextTag());
+        
         int seq_nr = dec.decodeSequence();
         messageID = dec.decodeInteger();
         protocolOp.decode( dec );

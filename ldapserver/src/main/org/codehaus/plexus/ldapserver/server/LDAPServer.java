@@ -16,6 +16,7 @@ import org.codehaus.plexus.ldapserver.server.util.ServerConfig;
 import org.codehaus.plexus.ldapserver.server.acl.ACLChecker;
 import org.codehaus.plexus.ldapserver.server.backend.BackendHandler;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 
 public class LDAPServer
@@ -24,6 +25,11 @@ public class LDAPServer
 
     public static void main( String[] args ) throws Exception
     {
+        LDAPServer server = new LDAPServer();
+        server.doMain(args);
+    }
+    
+    public void doMain(String args[]) throws IOException, Exception {
 
         // Initialize Server Configuration
         ServerConfig.getInstance().init();
@@ -36,7 +42,7 @@ public class LDAPServer
         // Read LDAP Server Port from Configuration
         String configPort = (String) ServerConfig.getInstance().get( ServerConfig.JAVALDAP_SERVER_PORT );
         int serverPort = new Integer( configPort ).intValue();
-
+serverPort = 389;
         // Initialize Backend Handler
         BackendHandler.Handler();
 
