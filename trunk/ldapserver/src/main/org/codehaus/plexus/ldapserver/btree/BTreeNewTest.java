@@ -10,7 +10,8 @@ import java.util.Enumeration;
 
 public class BTreeNewTest
 {
-
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(BTreeNewTest.class);
+    
     /**
      * BTreeNewTest constructor comment.
      */
@@ -40,7 +41,7 @@ public class BTreeNewTest
         Enumeration btenum = btree.keys();
         while ( btenum.hasMoreElements() )
         {
-            System.out.println( "Key: " + (String) ( (StringComparator) btenum.nextElement() ).getKey() );
+            LOGGER.info( "Key: " + (String) ( (StringComparator) btenum.nextElement() ).getKey() );
         }
     }
 }

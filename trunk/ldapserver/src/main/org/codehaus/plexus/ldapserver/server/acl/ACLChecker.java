@@ -93,6 +93,7 @@ public class ACLChecker
 
         try
         {
+            LOGGER.debug("ACL listing:");
             while (br.ready())
             {
                 String acl = br.readLine();
@@ -100,7 +101,7 @@ public class ACLChecker
                 {
                     StringTokenizer aclTok = new StringTokenizer(acl, "|");
                     DirectoryString aclLoc = new DirectoryString(aclTok.nextToken());
-                    System.out.println(aclLoc);
+                    LOGGER.debug(aclLoc);
                     if (aclLoc.equals(ROOTENTRY))
                     {
                         aclLoc = new DirectoryString("");
@@ -128,7 +129,7 @@ public class ACLChecker
 
     public boolean isAllowed(Credentials creds, Character action, DirectoryString target)
     {
-        System.out.println("creds = " + creds);
+        LOGGER.debug("creds = " + creds);
 
         boolean allowed = false;
         ACL matchedACL = null;
@@ -279,14 +280,14 @@ public class ACLChecker
             }
         }
 
-        System.out.println("allowed = " + allowed);
+        LOGGER.debug("allowed = " + allowed);
 
         return allowed;
     }
 
     public boolean isAllowed(Credentials creds, Character action, DirectoryString target, DirectoryString attr)
     {
-        System.out.println("action = " + action);
+        LOGGER.debug("action = " + action);
 
         boolean allowed = false;
         ACL matchedACL = null;

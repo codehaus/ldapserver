@@ -5,6 +5,8 @@ import java.util.Vector;
 
 public class BTreeEnumeration implements Enumeration
 {
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(BTreeEnumeration.class);
+    
     private BTree bTree = null;
     private int btnodeLevel = 0;
 
@@ -91,7 +93,7 @@ public class BTreeEnumeration implements Enumeration
             return element;
         }
 
-        System.out.println( "Odd...we shouldn't get here..." );
+        LOGGER.warn( "Odd...we shouldn't get here..." );
         moreElements = false;
         return null;
     }
@@ -169,7 +171,7 @@ public class BTreeEnumeration implements Enumeration
                 {
                     for ( int i = 0; i <= currentNode.nKey; i++ )
                     {
-                        System.out.println( "child# " + i );
+                        LOGGER.debug( "child# " + i );
                         if ( !nodesSeen.contains( currentNode.getBTNode( i ) ) )
                         {
                             currentNode = currentNode.getBTNode( i );
@@ -187,7 +189,7 @@ public class BTreeEnumeration implements Enumeration
             }
             if ( !viewNode && !newChild )
             {
-                System.out.println( "Getting Parent" );
+                LOGGER.debug( "Getting Parent" );
                 currentNode = currentNode.parent;
                 if ( currentNode == null )
                 {
@@ -226,20 +228,20 @@ public class BTreeEnumeration implements Enumeration
         //			moreElements = false;
         //		}
         //	}
-        System.out.println( "Odd...we shouldn't get here..." );
+        LOGGER.warn( "Odd...we shouldn't get here..." );
         moreElements = false;
         return null;
     }
 
     void showBTNode( BTNode btnode )
     {
-        //System.out.println("\nNODE:" + btnode + " Level" + btnodeLevel);
+        //LOGGER.debug("\nNODE:" + btnode + " Level" + btnodeLevel);
         int i = 0;
         for ( i = 0; i < btnode.nKey; i++ )
         {
-            //System.out.println("Obj=" + btnode.getKeyNode(i).getObj() + " | i=" + i + " | refBTNode:" + btnode.getBTNode(i));
+            //LOGGER.debug("Obj=" + btnode.getKeyNode(i).getObj() + " | i=" + i + " | refBTNode:" + btnode.getBTNode(i));
         }
-        //System.out.println("                   | refBTNode:" + btnode.getBTNode(i));
+        //LOGGER.debug("                   | refBTNode:" + btnode.getBTNode(i));
 
         if ( !btnode.isLeaf )
         {

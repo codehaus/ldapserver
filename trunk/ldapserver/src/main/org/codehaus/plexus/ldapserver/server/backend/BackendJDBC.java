@@ -567,7 +567,7 @@ public class BackendJDBC implements Backend
                 PreparedStatement ps = dbcon.prepareStatement( "UPDATE entry SET entryData = ? WHERE entryid = ?" );
                 ps.setBytes( 1, byteEntry );
                 ps.setLong( 2, current.getID() );
-                System.out.println( "Changing Entry: " + current.getID() );
+                LOGGER.debug( "Changing Entry: " + current.getID() );
                 ps.execute();
 
                 // Change indexes

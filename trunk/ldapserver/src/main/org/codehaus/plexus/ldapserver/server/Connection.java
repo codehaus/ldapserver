@@ -17,6 +17,8 @@ import java.net.Socket;
  */
 public class Connection
 {
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(Connection.class);
+    
     private Socket client = null;
     private boolean debug;
 
@@ -40,9 +42,9 @@ public class Connection
         {
             getClient().close();
         }
-        catch ( IOException e )
+        catch ( IOException ex )
         {
-            System.out.println( "Error: " + e );
+            LOGGER.debug( "Exception while closing, ", ex );
         }
     }
 

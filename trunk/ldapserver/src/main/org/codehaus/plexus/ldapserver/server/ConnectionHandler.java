@@ -13,6 +13,8 @@ import java.net.Socket;
 
 public class ConnectionHandler extends Thread
 {
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(ConnectionHandler.class);
+    
     private MessageHandler msgHandler = null;
 
     public ConnectionHandler( Socket client ) throws Exception
@@ -35,7 +37,7 @@ public class ConnectionHandler extends Thread
         while ( continueSession == true )
         {
             LDAPMessage request = msgHandler.getNextRequest();
-            System.out.println("Request: " + request);
+            LOGGER.debug("Request: " + request);
             if ( request != null )
             {
                 continueSession = msgHandler.answerRequest( request );
