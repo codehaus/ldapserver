@@ -3,6 +3,6 @@
 
 backend.num=1
 backend.0.root=dc=javaldap,dc=com
-backend.0.type=org.javaldap.server.backend.BackendMemory
+backend.0.type=org.codehaus.plexus.ldapserver.server.backend.BackendMemory
 #backend.1.root=dc=test,dc=com
 #backend.1.type=org.javaldap.server.backend.BackendJDBC

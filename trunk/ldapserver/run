@@ -1,5 +1,9 @@
 #!/bin/sh
 
-java -cp target/plexus-ldapserver-1.0-alpha-1.jar:\
-lib/snacc-2.3.jar:\
-lib/xerces-1.4.0.jar org.codehaus.plexus.ldapserver.server.LDAPServer 10389
+CP=
+CP=$CP:target/plexus-ldapserver-1.0-alpha-1.jar
+CP=$CP:lib/snacc-2.3.jar
+CP=$CP:~/.maven/repository/log4j/jars/log4j-1.2.8.jar
+CP=$CP:~/.maven/repository/xerces/jars/xerces-1.4.0.jar
+
+java -cp $CP org.codehaus.plexus.ldapserver.server.LDAPServer 10389
