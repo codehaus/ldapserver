@@ -6,6 +6,7 @@ package org.codehaus.plexus.ldapserver.server.util;
  * General logging class for use in printing debug output
  *
  * @author <a href="mailto:clayton.donley@octetstring.com">Clayton Donley</a>
+ * @deprecated Removed in favour of log4j
  */
 public class Logger
 {

@@ -13,6 +13,7 @@ import java.io.IOException;
 
 public class ServerConfig extends java.util.Properties
 {
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(ServerConfig.class);
 
     private static final String JAVALDAP_PROP = "javaldap.prop";
     private static final String JAVALDAP_PROP_DESC = "JavaLDAP Server Properties";
@@ -80,7 +81,7 @@ public class ServerConfig extends java.util.Properties
         {
             is = this.getClass().getResourceAsStream("/" + JAVALDAP_PROP);
             if(is == null) {
-                Logger.getInstance().log( Logger.LOG_NORMAL, "Configuration Not Found: " + JAVALDAP_PROP );
+                LOGGER.info("Configuration Not Found: " + JAVALDAP_PROP );
             }
             else {
                 try {
@@ -88,13 +89,13 @@ public class ServerConfig extends java.util.Properties
                     is.close();
                 }
                 catch(IOException ex) {
-                    Logger.getInstance().log( Logger.LOG_NORMAL, "IO Error Reading /" + JAVALDAP_PROP + " from class.");
+                    LOGGER.info("IO Error Reading /" + JAVALDAP_PROP + " from class.");
                 }
             }
         }
         catch ( java.io.IOException ioe )
         {
-            Logger.getInstance().log( Logger.LOG_NORMAL, "IO Error Reading " + JAVALDAP_PROP );
+            LOGGER.info("IO Error Reading " + JAVALDAP_PROP );
         }
     }
 
@@ -108,7 +109,7 @@ public class ServerConfig extends java.util.Properties
         }
         catch ( java.io.IOException ioe )
         {
-            Logger.getInstance().log( Logger.LOG_NORMAL, "IO Error Writing " + JAVALDAP_PROP );
+            LOGGER.info("IO Error Writing " + JAVALDAP_PROP );
         }
     }
 }

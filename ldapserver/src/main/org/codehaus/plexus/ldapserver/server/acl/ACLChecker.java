@@ -7,7 +7,6 @@ package org.codehaus.plexus.ldapserver.server.acl;
 
 import org.codehaus.plexus.ldapserver.server.Credentials;
 import org.codehaus.plexus.ldapserver.server.syntax.DirectoryString;
-import org.codehaus.plexus.ldapserver.server.util.Logger;
 import org.codehaus.plexus.ldapserver.server.util.ServerConfig;
 
 import java.io.BufferedReader;
@@ -21,6 +20,7 @@ import java.util.Vector;
 
 public class ACLChecker
 {
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(ACLChecker.class);
 
     private Hashtable acls = null;
     private static ACLChecker instance = null;
@@ -87,7 +87,7 @@ public class ACLChecker
         }
         catch (FileNotFoundException fnfe)
         {
-            Logger.getInstance().log(Logger.LOG_NORMAL, "File containing ACLs not found (" + filename + ")");
+            LOGGER.info("File containing ACLs not found (" + filename + ")");
             return;
         }
 

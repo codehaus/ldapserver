@@ -42,7 +42,6 @@ import org.codehaus.plexus.ldapserver.server.schema.SchemaChecker;
 import org.codehaus.plexus.ldapserver.server.syntax.DirectoryString;
 import org.codehaus.plexus.ldapserver.server.util.DirectoryException;
 import org.codehaus.plexus.ldapserver.server.util.DirectorySchemaViolation;
-import org.codehaus.plexus.ldapserver.server.util.Logger;
 import org.codehaus.plexus.ldapserver.server.util.ServerConfig;
 
 import java.sql.Connection;
@@ -56,7 +55,8 @@ import java.util.Vector;
 
 public class BackendJDBC implements Backend
 {
-
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(BackendJDBC.class);
+    
     Vector exactIndexes = null;
     long idCounter = 0;
 
@@ -68,9 +68,9 @@ public class BackendJDBC implements Backend
         {
             Class.forName( (String) ServerConfig.getInstance().get( ServerConfig.JAVALDAP_BACKENDJDBC_DBDRIVER ) ).newInstance();
         }
-        catch ( Exception e )
+        catch ( Exception ex )
         {
-            Logger.getInstance().log( Logger.LOG_NORMAL, "Error: " + e.getMessage() );
+            LOGGER.warn("Exception while getting jdbc driver.", ex);
         }
 
         // The indexes we will create. Hardcoded at the moment.
