@@ -35,6 +35,7 @@ public class ConnectionHandler extends Thread
         while ( continueSession == true )
         {
             LDAPMessage request = msgHandler.getNextRequest();
+            System.out.println("Request: " + request);
             if ( request != null )
             {
                 continueSession = msgHandler.answerRequest( request );

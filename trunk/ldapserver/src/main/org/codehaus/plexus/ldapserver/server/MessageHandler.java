@@ -26,6 +26,9 @@ import java.io.IOException;
 
 public class MessageHandler
 {
+    /** log4j logger */
+    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(MessageHandler.class);
+    
     private Connection connection = null;
 
     //private boolean debug = false;
@@ -208,7 +211,7 @@ public class MessageHandler
         }
         catch ( ASN1Exception e )
         {
-            System.out.println( "Error: " + e );
+            LOGGER.warn("Couldn't get next LDAP request", e);
             return null;
         }
 
