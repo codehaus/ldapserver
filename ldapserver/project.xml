@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project>
+  <extend>${maven.repo.local}/plexus/poms/plexus-components-1.0.pom</extend>
+  <id>plexus-ldapserver</id>
+  <name>Plexus LDAP Server Component</name>
+  <currentVersion>1.0-alpha-1</currentVersion>
+   
+  <dependencies>
+    <dependency>
+      <groupId>snacc4j</groupId>
+      <artifactId>snacc</artifactId>
+      <version>2.3</version>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <implementation>org.codehaus.plexus.ldapserver.DefaultLDAPServer</implementation>
+  </properties>
+
+</project>
+
