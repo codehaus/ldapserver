@@ -102,6 +102,7 @@ public class LDAPServer
             LOGGER.debug("Bound to: " + ((InetSocketAddress)serverSock.getLocalSocketAddress()).getAddress());
         }
         catch(IOException ex) {
+            LOGGER.info("Could not open socket.", ex);
             return false;
         }
         
