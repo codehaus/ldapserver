@@ -197,7 +197,7 @@ public class BackendHandler
             DirectoryString base = (DirectoryString) backEnum.nextElement();
             if ( entryName.endsWith( base ) || ( scope != SearchRequestEnum.BASEOBJECT && base.endsWith( entryName ) ) )
             {
-                backs.addElement( (Backend) handlerTable.get( base ) );
+                backs.addElement( handlerTable.get( base ) );
                 //Logger.getInstance().log(Logger.LOG_DEBUG,"Selected Backend for: " + base);
             }
         }
