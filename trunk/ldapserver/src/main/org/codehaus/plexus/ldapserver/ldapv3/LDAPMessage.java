@@ -23,7 +23,7 @@ import java.io.PrintStream;
  * For each sequence member, sequence classes contain a
  * public member variable of the corresponding Java type.
  * @author Snacc for Java
- * @version $Id: LDAPMessage.java,v 1.4 2003-11-27 12:09:40 trygvis Exp $
+ * @version $Id: LDAPMessage.java,v 1.5 2003-12-23 19:17:28 trygvis Exp $
  */
 public class LDAPMessage implements LDAPv3
 {
@@ -63,9 +63,9 @@ public class LDAPMessage implements LDAPv3
      */
     public void decode( ASN1Decoder dec ) throws ASN1Exception
     {
-        LOGGER.debug("dec.toString() = " + dec.toString());
-        LOGGER.debug("dec.peekNextTag() = " + dec.peekNextTag());
-        
+//        LOGGER.debug("dec.toString() = " + dec.toString());
+//        LOGGER.debug("dec.peekNextTag() = " + dec.peekNextTag());
+
         int seq_nr = dec.decodeSequence();
         messageID = dec.decodeInteger();
         protocolOp.decode( dec );
