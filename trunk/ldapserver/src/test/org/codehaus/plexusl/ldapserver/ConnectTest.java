@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 /**
  * @author  Ben Walding
- * @version $Id: ConnectTest.java,v 1.1 2003-11-19 03:40:19 bwalding Exp $
+ * @version $Id: ConnectTest.java,v 1.2 2003-11-19 03:52:06 bwalding Exp $
  */
 public class ConnectTest extends TestCase
 {
@@ -39,10 +39,10 @@ public class ConnectTest extends TestCase
 
         Ldap ldap = new Ldap();
         ldap.setBaseDN("");
-        ldap.setPort("389");
-        ldap.setUser("");
         ldap.setServer("127.0.0.1");
-        ldap.setPassword("");
+        ldap.setPort("389");
+        ldap.setUser("cn=admin");
+        ldap.setPassword("manager");
 
         LDAPConnection conn = new LDAPConnection();
 
