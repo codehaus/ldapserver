@@ -1,21 +1,41 @@
 #!/bin/bash
 
 HOST=127.0.0.1
+BASE="javaldap,dc=com"
 BIND_DN="cn=Admin"
 BIND_PW=manager
 PORT=10389
-OPTIONS="-x -h $HOST -D $BIND_DN -w $BIND_PW -p $PORT"
 
-# Add it
+#BASE="dc=inamo,dc=no"
+#HOST=deservio.inamo.no
+#BIND_DN="cn=admin,dc=inamo,dc=no"
+#BIND_PW=admin
+##PORT=389
+
+OPTIONS="-x -h $HOST -D $BIND_DN -w $BIND_PW -p $PORT"
+echo Password: $BIND_PW
+
+echo "######################################## adding entry"
 ldapadd $OPTIONS -f example1.ldif 
 
 # This should give a error message
-ldapadd $OPTIONS -f example1.ldif 
+#echo "######################################## trying to add same entry"
+#ldapadd $OPTIONS -f example1.ldif 
 
 # Show the entry
 # The password option doesn't work with my ldapsearch
 # just enter the password 'manager'
-ldapsearch $OPTIONS -W "objectclass=*"
+echo "######################################## showing added entry"
+ldapsearch $OPTIONS -W "objectclass=*" | egrep "^cn|^title"
+
+# Mofidy entry
+echo "######################################## modifying added entry"
+ldapmodify $OPTIONS -f example2.ldif #| egrep "^cn|^title"
+
+# Show the modified entry
+echo "######################################## showing modified entry"
+ldapsearch $OPTIONS -v -W "objectclass=*" | egrep "^cn|^title"
+#| egrep "[^cn|^title]"
 
 # Remove the entry
 # this doesn't work yet
